@@ -1,5 +1,5 @@
-# habitism 🚧 Work in progress 👷‍♀️⛏👷🔧️👷🔧 🚧 
-
+# Habitism 🚧 Work in progress 👷‍♀️⛏👷🔧️👷🔧 🚧 
+ [![Actions Status](https://github.com/solikil/habitism/workflows/Build%20and%20Test/badge.svg)](https://github.com/solikil/habitism/actions) <img src="https://img.shields.io/badge/made%20with-dart-blue.svg" alt="made with dart">
 ## Folder Structure explanation
  The lib folder is divided into three folders. Core, constants and ui. Constants just holds constants and enums. Core contains all the files associated with the logic. ui contains all the files associated with the ui. 
 
