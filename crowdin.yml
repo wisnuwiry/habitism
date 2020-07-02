@@ -1,3 +1,0 @@
-files:
-  - source: assets/strings.dart
-    translation: assets/values/%language%/%original_file_name%
