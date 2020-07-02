@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
 
   Widget _content(bool showTitle) =>
       Padding(
-        padding: EdgeInsets.all(50),
+        padding: const EdgeInsets.all(50),
         child: Column(
           children: <Widget>[
             if (showTitle)
@@ -104,8 +104,7 @@ class _HomeState extends State<Home> {
                     const EmojiText(eyeEmoji),
                     Expanded(
                       child: Text(
-                          DateTimeFormat.format(
-                              DateTime.now(), format: 'D, M j'),
+                          DateTimeFormat.format(DateTime.now(), format: 'D, M j'),
                           textAlign: TextAlign.center
                       ),
                     ),
