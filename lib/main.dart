@@ -82,16 +82,16 @@ class _HomePageState extends State<HomePage> {
             ),
             title: Container(
               height: 36,
-              color: Colors.transparent,
-              child: Text('PhoneLandscape'),
-            ),
+          color: Colors.transparent,
+          child: const Text('PhoneLandscape'),
+        ),
           ),
           body: Row(
             children: <Widget>[
               SizedBox(
                   width: 150.0,
                   height: double.infinity,
-                  child: SingleChildScrollView(
+                  child: const SingleChildScrollView(
                     child: Text('Content'),
                   )),
               Expanded(child: _content(false)),
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
           title: Container(
             height: 36,
             color: Colors.transparent,
-            child: Text('PhoneVertical'),
+            child: const Text('PhoneVertical'),
           ),
         ),
         drawer: _drawer,
