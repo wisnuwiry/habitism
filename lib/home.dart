@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
               width: 150.0,
               height: double.infinity,
               child: SingleChildScrollView(
-                child: EmojiText(eyeEmoji),
+                child: EmojiText('side panel goes here! $eyeEmoji'),
               )),
           Expanded(child: _content(false)),
         ],

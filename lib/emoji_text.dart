@@ -12,7 +12,7 @@ class EmojiText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
-      text: _buildText(this.text),
+      text: _buildText(text),
     );
   }
 
@@ -20,13 +20,13 @@ class EmojiText extends StatelessWidget {
     final children = <TextSpan>[];
     final runes = text.runes;
 
-    for (int i = 0; i < runes.length; /* empty */) {
-      int current = runes.elementAt(i);
+    for (var i = 0; i < runes.length; /* empty */) {
+      var current = runes.elementAt(i);
 
       // we assume that everything that is not
       // in Extended-ASCII set is an emoji...
       final isEmoji = current > 255;
-      final shouldBreak = isEmoji ? (x) => x <= 255 : (x) => x > 255;
+      final shouldBreak = isEmoji ? (int x) => x <= 255 : (int x) => x > 255;
 
       final chunk = <int>[];
       while (!shouldBreak(current)) {
