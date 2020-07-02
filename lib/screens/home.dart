@@ -1,7 +1,10 @@
+import 'dart:ui';
+
+import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
-import 'package:habitism/emoji_text.dart';
-import 'package:habitism/emojis.dart';
-import 'package:habitism/util.dart' as utils;
+import 'package:habitism/shared/emojis.dart';
+import 'package:habitism/shared/util.dart' as utils;
+import 'package:habitism/widgets/emoji_text.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -28,12 +31,12 @@ class _HomeState extends State<Home> {
   }
 
   Widget get _buildTablet => Scaffold(
-        body: DefaultTabController(
-          length: 3,
-          initialIndex: 1,
-          child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
+    body: DefaultTabController(
+      length: 3,
+      initialIndex: 1,
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
                 elevation: 0.0,
                 flexibleSpace: Container(
                   color: Colors.amber,
@@ -44,9 +47,9 @@ class _HomeState extends State<Home> {
                   child: const Text('tablet'),
                 ),
               ),
-              body: _content(true)),
+              body: _content(false)),
         ),
-      );
+  );
 
   Widget get _buildPhoneLandscape => Scaffold(
       appBar: AppBar(
@@ -63,7 +66,7 @@ class _HomeState extends State<Home> {
       ),
       body: Row(
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
               width: 150.0,
               height: double.infinity,
               child: SingleChildScrollView(
@@ -74,23 +77,47 @@ class _HomeState extends State<Home> {
       ));
 
   Widget get _buildPhonePortrait => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          flexibleSpace: Container(
-            color: Colors.amber,
-          ),
-          title: Container(
-            height: 36,
-            color: Colors.transparent,
-            child: const Text('PhoneVertical'),
-          ),
-        ),
-        drawer: _drawer,
-        body: _content(false),
-      );
+//        appBar: AppBar(
+//          backgroundColor: Colors.transparent,
+//          elevation: 0.0,
+//          title: Container(
+//            height: 36,
+//            color: Colors.transparent,
+//            child: Text(
+//              DateTimeFormat.format(DateTime.now(), format: 'D, M j'),
+//            ),
+//          ),
+//        ),
+    drawer: _drawer,
+    body: _content(true),
+  );
 
-  Widget _content(bool showTitleImage) => const Center(child: Text('content'));
+  Widget _content(bool showTitle) =>
+      Padding(
+        padding: EdgeInsets.all(50),
+        child: Column(
+          children: <Widget>[
+            if (showTitle)
+              Flexible(
+                child: Row(
+                  children: <Widget>[
+                    const EmojiText(eyeEmoji),
+                    Expanded(
+                      child: Text(
+                          DateTimeFormat.format(
+                              DateTime.now(), format: 'D, M j'),
+                          textAlign: TextAlign.center
+                      ),
+                    ),
+                    const EmojiText(settingsEmoji),
+                  ],
+                ),
+              ),
+            const Expanded(
+              child: Center(child: Text('content')),
+            ),
+          ],
+        ),);
 
 //      CustomScrollView(
 //        slivers: <Widget>[
@@ -139,8 +166,8 @@ class _HomeState extends State<Home> {
 //      );
 
   Widget get _drawer => const Drawer(
-        child: Text('DrawerContent'),
-      );
+    child: Text('DrawerContent'),
+  );
 }
 
 //class MyHomePage extends StatelessWidget {

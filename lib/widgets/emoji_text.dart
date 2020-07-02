@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EmojiText extends StatelessWidget {
   const EmojiText(
@@ -38,9 +39,9 @@ class EmojiText extends StatelessWidget {
       children.add(
         TextSpan(
           text: String.fromCharCodes(chunk),
-          style: TextStyle(
-            fontFamily: isEmoji ? 'EmojiOne' : null,
-          ),
+          style: isEmoji
+              ? GoogleFonts.notoColorEmojiCompat().copyWith(fontSize: 22)
+              : const TextStyle(),
         ),
       );
     }
