@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habitism/emoji_text.dart';
+import 'package:habitism/emojis.dart';
 import 'package:habitism/util.dart' as utils;
 
 class Home extends StatefulWidget {
@@ -64,8 +66,8 @@ class _HomeState extends State<Home> {
           SizedBox(
               width: 150.0,
               height: double.infinity,
-              child: const SingleChildScrollView(
-                child: Text('Content'),
+              child: SingleChildScrollView(
+                child: EmojiText(eyeEmoji),
               )),
           Expanded(child: _content(false)),
         ],
