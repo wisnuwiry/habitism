@@ -6,13 +6,13 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(context) => MaterialApp(home: MyHomePage());
+  Widget build(BuildContext context) => MaterialApp(home: MyHomePage());
 }
 
 class MyHomePage extends StatelessWidget {
   @override
-  Widget build(context) => Scaffold(
-      appBar: AppBar(title: Text("test")),
+  Widget build(BuildContext context) => Scaffold(
+      appBar: AppBar(title: const Text('test')),
       drawer: MediaQuery.of(context).size.width < 500
           ? Drawer(
               child: Menu(),
@@ -32,47 +32,55 @@ class MyHomePage extends StatelessWidget {
 
 class Menu extends StatelessWidget {
   @override
-  Widget build(context) => ListView(children: [
+  Widget build(BuildContext context) =>
+      ListView(children: [
         FlatButton(
             onPressed: () {},
             child: ListTile(
               leading: Icon(Icons.looks_one),
-              title: Text("First Link"),
+              title: const Text('First Link'),
             )),
         FlatButton(
             onPressed: () {},
             child: ListTile(
               leading: Icon(Icons.looks_two),
-              title: Text("Second Link"),
+              title: const Text('Second Link'),
             ))
       ]);
 }
 
 class Content extends StatelessWidget {
-  final List elements = [
-    "Zero",
-    "One",
-    "Two",
-    "Three",
-    "Four",
-    "Five",
-    "Six",
-    "Seven",
-    "Eight",
-    "A Million Billion Trillion",
-    "A much, much longer text that will still fit"
+  final List<String> elements = [
+    'Zero',
+    'One',
+    'Two',
+    'Three',
+    'Four',
+    'Five',
+    'Six',
+    'Seven',
+    'Eight',
+    'A Million Billion Trillion',
+    'A much, much longer text that will still fit'
   ];
 
   @override
-  Widget build(context) => GridView.builder(
-      itemCount: elements.length,
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 130.0,
-        crossAxisSpacing: 20.0,
-        mainAxisSpacing: 20.0,
-      ),
-      itemBuilder: (context, i) => Card(
-          child: Center(
-              child: Padding(
-                  padding: EdgeInsets.all(8.0), child: Text(elements[i])))));
+  Widget build(BuildContext context) =>
+      GridView.builder(
+        itemCount: elements.length,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 130.0,
+          crossAxisSpacing: 20.0,
+          mainAxisSpacing: 20.0,
+        ),
+        itemBuilder: (context, i) =>
+            Card(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(elements[i]),
+                ),
+              ),
+            ),
+      );
 }
