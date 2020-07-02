@@ -31,12 +31,12 @@ class _HomeState extends State<Home> {
   }
 
   Widget get _buildTablet => Scaffold(
-    body: DefaultTabController(
-      length: 3,
-      initialIndex: 1,
-      child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
+        body: DefaultTabController(
+          length: 3,
+          initialIndex: 1,
+          child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
                 elevation: 0.0,
                 flexibleSpace: Container(
                   color: Colors.amber,
@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
               ),
               body: _content(false)),
         ),
-  );
+      );
 
   Widget get _buildPhoneLandscape => Scaffold(
       appBar: AppBar(
@@ -104,9 +104,11 @@ class _HomeState extends State<Home> {
                     const EmojiText(eyeEmoji),
                     Expanded(
                       child: Text(
-                          DateTimeFormat.format(DateTime.now(), format: 'D, M j'),
-                          textAlign: TextAlign.center
-                      ),
+                          DateTimeFormat.format(
+                            DateTime.now(),
+                            format: 'D, M j',
+                          ),
+                          textAlign: TextAlign.center),
                     ),
                     const EmojiText(settingsEmoji),
                   ],
@@ -116,7 +118,8 @@ class _HomeState extends State<Home> {
               child: Center(child: Text('content')),
             ),
           ],
-        ),);
+        ),
+      );
 
 //      CustomScrollView(
 //        slivers: <Widget>[
@@ -164,9 +167,10 @@ class _HomeState extends State<Home> {
 //        ],
 //      );
 
-  Widget get _drawer => const Drawer(
-    child: Text('DrawerContent'),
-  );
+  Widget get _drawer =>
+      const Drawer(
+        child: Text('DrawerContent'),
+      );
 }
 
 //class MyHomePage extends StatelessWidget {
