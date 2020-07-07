@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
 import 'package:habitism/shared/emojis.dart';
+import 'package:habitism/shared/text.dart';
 import 'package:habitism/shared/util.dart' as utils;
 import 'package:habitism/widgets/emoji_text.dart';
 
@@ -100,22 +99,21 @@ class _HomeState extends State<Home> {
             if (showTitle)
               Flexible(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    const EmojiText(eyeEmoji),
-                    Expanded(
-                      child: Text(
-                          DateTimeFormat.format(
-                            DateTime.now(),
-                            format: 'D, M j',
-                          ),
-                          textAlign: TextAlign.center),
-                    ),
                     const EmojiText(settingsEmoji),
+                    ResponsiveText(
+                        DateTimeFormat.format(
+                          DateTime.now(),
+                          format: 'D, M j',
+                        ),
+                        align: TextAlign.center),
+                    const EmojiText(eyeEmoji),
                   ],
                 ),
               ),
-            const Expanded(
-              child: Center(child: Text('content')),
+            Expanded(
+              child: Center(child: ResponsiveText('content')),
             ),
           ],
         ),
