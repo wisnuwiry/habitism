@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:habitism/shared/colors.dart';
+import 'package:habitism/ui/colors.dart';
 
 ThemeData buildLightTheme() {
   return ThemeData.light().copyWith(

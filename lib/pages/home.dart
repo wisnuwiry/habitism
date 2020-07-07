@@ -1,32 +1,69 @@
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
-import 'package:habitism/shared/emojis.dart';
-import 'package:habitism/shared/text.dart';
-import 'package:habitism/shared/util.dart' as utils;
+import 'package:habitism/provider/theme_provider.dart';
+import 'package:habitism/ui/emojis.dart';
+import 'package:habitism/ui/text.dart';
+import 'package:habitism/ui/themes.dart';
+import 'package:habitism/utils/device_type.dart' as utils;
+import 'package:habitism/utils/prefs.dart';
 import 'package:habitism/widgets/emoji_text.dart';
+import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
-
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
+// * Define this to get reference in descendant widgets through context
+class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, _) {
-      final device = utils.deviceType(context);
-      if (device == utils.DeviceType.tablet) {
-        return _buildTablet;
-      }
-      final orientation = MediaQuery.of(context).orientation;
-      if (orientation == Orientation.portrait) {
-        return _buildPhonePortrait;
-      } else {
-        return _buildPhoneLandscape;
-      }
-    });
+    return ChangeNotifierProvider<ThemeProvider>(
+      create: (context) => ThemeProvider(),
+      child: MyApp(),
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // * Uses the state that is provided, thus, "consumes"
+
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          //locale: DevicePreview.of(context).locale,
+          //builder: DevicePreview.appBuilder,
+          title: 'Habitism',
+          theme: themeProvider.state.isDarkTheme
+              ? buildDarkTheme()
+              : buildLightTheme(),
+          home: Home(),
+        );
+      },
+    );
+  }
+}
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      // Upon exiting, save theme preferences
+      onWillPop: () {
+        updatePrefs(Provider.of<ThemeProvider>(context).state.isDarkTheme);
+        return Future.value(true);
+      },
+      child: LayoutBuilder(builder: (context, _) {
+        final device = utils.deviceType(context);
+        if (device == utils.DeviceType.tablet) {
+          return _buildTablet;
+        }
+        final orientation = MediaQuery.of(context).orientation;
+        if (orientation == Orientation.portrait) {
+          return _buildPhonePortrait;
+        } else {
+          return _buildPhoneLandscape;
+        }
+      }),
+    );
   }
 
   Widget get _buildTablet => Scaffold(
@@ -101,19 +138,28 @@ class _HomeState extends State<Home> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    const EmojiText(settingsEmoji),
+                    const EmojiText(eyeEmoji),
                     ResponsiveText(
                         DateTimeFormat.format(
                           DateTime.now(),
                           format: 'D, M j',
                         ),
                         align: TextAlign.center),
-                    const EmojiText(eyeEmoji),
+                    const EmojiText(settingsEmoji),
                   ],
                 ),
               ),
             Expanded(
-              child: Center(child: ResponsiveText('content')),
+              child: Consumer<ThemeProvider>(
+                builder: (context, themeProvider, _) =>
+                    Center(
+                      child: InkWell(
+                        onTap: () => themeProvider.toggleTheme(),
+                        child: ResponsiveText(
+                            'Click here to change the theme!'),
+                      ),
+                    ),
+              ),
             ),
           ],
         ),
