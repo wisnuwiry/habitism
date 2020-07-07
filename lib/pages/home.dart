@@ -1,5 +1,7 @@
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:habitism/data/app_localization.dart';
 import 'package:habitism/provider/theme_provider.dart';
 import 'package:habitism/ui/emojis.dart';
 import 'package:habitism/ui/text.dart';
@@ -24,13 +26,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // * Uses the state that is provided, thus, "consumes"
-
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, _) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          //locale: DevicePreview.of(context).locale,
-          //builder: DevicePreview.appBuilder,
+          locale: themeProvider.state.appLocale,
+          supportedLocales: [
+            const Locale('en', 'US'),
+            const Locale('ar', ''),
+          ],
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
           title: 'Habitism',
           theme: themeProvider.state.isDarkTheme
               ? buildDarkTheme()
@@ -48,7 +57,10 @@ class Home extends StatelessWidget {
     return WillPopScope(
       // Upon exiting, save theme preferences
       onWillPop: () {
-        updatePrefs(Provider.of<ThemeProvider>(context).state.isDarkTheme);
+        final themeState = Provider
+            .of<ThemeProvider>(context)
+            .state;
+        updatePrefs(themeState.isDarkTheme, themeState.appLocale);
         return Future.value(true);
       },
       child: LayoutBuilder(builder: (context, _) {
@@ -106,12 +118,32 @@ class Home extends StatelessWidget {
             ),
             Expanded(
               child: Consumer<ThemeProvider>(
-                builder: (context, themeProvider, _) => Center(
-                  child: InkWell(
-                    onTap: () => themeProvider.toggleTheme(),
-                    child: ResponsiveText('Click here to change the theme!'),
-                  ),
-                ),
+                builder: (context, themeProvider, _) =>
+                    Column(
+                      children: [
+                        InkWell(
+                          onTap: () => themeProvider.toggleTheme(),
+                          child: ResponsiveText(
+                            AppLocalizations.of(context).translate(
+                                'change_theme'),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () =>
+                              themeProvider.toggleLocale(const Locale('ar')),
+                          child: ResponsiveText(
+                              'العربي'
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () =>
+                              themeProvider.toggleLocale(const Locale('en')),
+                          child: ResponsiveText(
+                              'English'
+                          ),
+                        ),
+                      ],
+                    ),
               ),
             ),
           ],
@@ -119,7 +151,7 @@ class Home extends StatelessWidget {
       );
 }
 
-//    USING CUSTOM SCROLL FOR HOME CONTENT
+//    TODo: USING CUSTOM SCROLL FOR HOME CONTENT
 //      CustomScrollView(
 //        slivers: <Widget>[
 //          SliverPadding(
