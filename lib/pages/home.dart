@@ -1,55 +1,13 @@
 import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:habitism/data/app_localization.dart';
+import 'package:habitism/data/route_paths.dart';
 import 'package:habitism/provider/theme_provider.dart';
 import 'package:habitism/ui/emojis.dart';
 import 'package:habitism/ui/text.dart';
-import 'package:habitism/ui/themes.dart';
 import 'package:habitism/utils/device_type.dart' as utils;
 import 'package:habitism/utils/prefs.dart';
 import 'package:habitism/widgets/emoji_text.dart';
 import 'package:provider/provider.dart';
-
-// * Define this to get reference in descendant widgets through context
-class Root extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ThemeProvider>(
-      create: (context) => ThemeProvider(),
-      child: MyApp(),
-    );
-  }
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // * Uses the state that is provided, thus, "consumes"
-    return Consumer<ThemeProvider>(
-      builder: (context, themeProvider, _) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          locale: themeProvider.state.appLocale,
-          supportedLocales: [
-            const Locale('en', 'US'),
-            const Locale('ar', ''),
-          ],
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          title: 'Habitism',
-          theme: themeProvider.state.isDarkTheme
-              ? buildDarkTheme()
-              : buildLightTheme(),
-          home: Home(),
-        );
-      },
-    );
-  }
-}
 
 class Home extends StatelessWidget {
   @override
@@ -57,9 +15,7 @@ class Home extends StatelessWidget {
     return WillPopScope(
       // Upon exiting, save theme preferences
       onWillPop: () {
-        final themeState = Provider
-            .of<ThemeProvider>(context)
-            .state;
+        final themeState = Provider.of<ThemeProvider>(context).state;
         updatePrefs(themeState.isDarkTheme, themeState.appLocale);
         return Future.value(true);
       },
@@ -102,53 +58,56 @@ class Home extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  if (showDetails) const EmojiText(eyeEmoji),
-                  ResponsiveText(
-                      DateTimeFormat.format(
-                        DateTime.now(),
-                        format: 'D, M j',
-                      ),
-                      align: TextAlign.center),
-                  const EmojiText(settingsEmoji),
-                ],
-              ),
+              child: HomeAppBar(showDetails),
             ),
             Expanded(
-              child: Consumer<ThemeProvider>(
-                builder: (context, themeProvider, _) =>
-                    Column(
-                      children: [
-                        InkWell(
-                          onTap: () => themeProvider.toggleTheme(),
-                          child: ResponsiveText(
-                            AppLocalizations.of(context).translate(
-                                'change_theme'),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () =>
-                              themeProvider.toggleLocale(const Locale('ar')),
-                          child: ResponsiveText(
-                              'العربي'
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () =>
-                              themeProvider.toggleLocale(const Locale('en')),
-                          child: ResponsiveText(
-                              'English'
-                          ),
-                        ),
-                      ],
-                    ),
-              ),
+              child: HomeTodoList(),
             ),
           ],
         ),
-      );
+  );
+}
+
+class HomeAppBar extends StatelessWidget {
+  final bool showDetails;
+
+  const HomeAppBar(this.showDetails, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        if (showDetails) const EmojiText(eyeEmoji),
+        ResponsiveText(
+            DateTimeFormat.format(
+              DateTime.now(),
+              format: 'D, M j',
+            ),
+            align: TextAlign.center),
+        IconButton(
+          icon: const EmojiText(settingsEmoji),
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              RoutePaths.settings,
+            );
+          },
+        )
+      ],
+    );
+  }
+}
+
+List<String> alphabetList = [
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'
+];
+
+class HomeTodoList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }
 
 //    TODo: USING CUSTOM SCROLL FOR HOME CONTENT
