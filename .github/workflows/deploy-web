@@ -16,7 +16,7 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '1.12.x'
-          channel: 'beta' # Using beta channel for Flutter web.
+          channel: 'beta'
       - name: Upgrades flutter
         run: flutter upgrade
         working-directory: ./web
