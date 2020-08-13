@@ -1,9 +1,8 @@
-name: deploy-web
-
+name: Deploy Web
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -38,5 +37,5 @@ jobs:
           git remote add secure-origin https://github.com/solikil/habitism.git
           git checkout -b gh-pages
           git add .
-          git commit -m "Deploy"
+          git commit -m "Updated docs"
           git push --force secure-origin gh-pages
